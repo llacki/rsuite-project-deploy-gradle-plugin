@@ -65,9 +65,9 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 	}
 
 	private String getRSuiteIvyRepositoryUrl(){
-		def props = new Properties()
-		InputStream is = getClass().getResourceAsStream("/plugin.properties")
-		props.load(is)
+		Properties props = new Properties()
+		InputStream is =  getClass().getResourceAsStream("/plugin.properties")
+ 		props.load(is)
 		props.get("rsuiteIvyRepositoryUrl")
 	}
 	

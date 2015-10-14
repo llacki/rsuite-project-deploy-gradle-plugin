@@ -17,13 +17,13 @@ class RSuitePluginDeployer {
 		project.copy {
 			from configuration
 			into deploymentConfig.getRSuitePluginsPath()
-			rename '(.*)-(.*).jar', '$1.jar'
+			rename '(.*)-[0-9]+.*(-SNAPSHOT)?\\.jar', '$1.jar'
 		}
 		
 		project.copy {
 			from projectPluginLocation
 			into deploymentConfig.getRSuitePluginsPath()
-			rename '(.*)-(.*).jar', '$1.jar'
+			rename '(.*)-[0-9]+.*(-SNAPSHOT)?\\.jar', '$1.jar'
 		}
 	}
 }

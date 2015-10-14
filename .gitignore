@@ -1,0 +1,9 @@
+bin/
+build/
+.settings/
+.gradle/
+.project
+.groovy/
+.classpath
+gradle.properties
+plugin.properties

@@ -1,0 +1,44 @@
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'ivy-publish'
+
+dependencies {
+	compile gradleApi()
+	compile localGroovy()
+}
+
+apply plugin: 'maven'
+
+repositories { mavenCentral() }
+
+dependencies { testCompile 'junit:junit:4.12' }
+
+group = 'rsi'
+version = '0.0.1'
+
+task uploadToLocalMavenRepostiory(type: Upload){
+	configuration = configurations.archives
+	repositories {
+		mavenDeployer {
+			repository(url: uri(mavenUrl))
+		}
+	}
+}
+
+publishing{
+	publications {
+		ivyJava(IvyPublication) { from components.java }
+	}
+
+
+	repositories {
+		ivy {
+			url ivyRSuiteRepoUrl
+			credentials{
+				username ivyRSuiteRepoUserName
+				password ivyRSuiteRepoPassword
+			}
+			layout "pattern", { artifact "[organisation]/[module]/[artifact]-[revision].[ext]" }
+		}
+	}
+}

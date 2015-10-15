@@ -13,6 +13,7 @@ class RSuitePluginDeployer {
 		Configuration configuration = configurations.getByName("rsuitePlugins")
 		
 		RSuiteDeploymentConfig deploymentConfig = project.extensions.getByType(RSuiteDeploymentConfig)
+		File projectPluginDir = new File(deploymentConfig.baseDir, projectPluginLocation)
 		
 		project.copy {
 			from configuration
@@ -21,7 +22,7 @@ class RSuitePluginDeployer {
 		}
 		
 		project.copy {
-			from projectPluginLocation
+			from projectPluginDir
 			into deploymentConfig.getRSuitePluginsPath()
 			rename '(.*)-[0-9]+.*(-SNAPSHOT)?\\.jar', '$1.jar'
 		}

@@ -43,6 +43,12 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 			group = GRADLE_RSUITE
 			description = "This task deploys all rsuite plugins related with the project"
 		}
+		
+		Task deployRStuiteProjectTask = project.task('deployRSuiteProject', type: RSuiteDeployRSuitePluginsTask) {
+			group = GRADLE_RSUITE
+			description = "This task deploys all rsuite plugins related with the project and runs all groovy scripts"
+		}
+		deployRStuiteProjectTask.dependsOn('runAllGroovyScripts');
 
 		project.task('developmentBuildPluginPackage', type: RSuiteDevelopmentBuildPackageTask) {
 			group = GRADLE_RSUITE

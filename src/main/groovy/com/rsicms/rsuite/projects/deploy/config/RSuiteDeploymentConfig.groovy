@@ -16,14 +16,24 @@ class RSuiteDeploymentConfig {
 	String rsuiteHomeDir
 	
 	String rsuitePluginsDir
-
-	File setupDir =  new File("setup")
+	
+	File baseDir;
+	
+	File setupDir
 	
 	private String deploymentMode = "production"
 
 	@Inject
 	RSuiteDeploymentConfig(Project project) {
-		this.project = project		
+		this.project = project
+		baseDir = project.getBuildFile().getParentFile()
+		setupDir = new File(baseDir, "setup")
+	}
+	
+	void setDefaultPropertyValue(propertyName, value){
+		if (!project.hasProperty(propertyName)) {
+			project.getExtensions().extraProperties.set(propertyName, value)
+		}
 	}
 
 	void rsuiteGroovy(Closure c) {

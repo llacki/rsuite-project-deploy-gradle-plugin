@@ -5,9 +5,10 @@ import org.gradle.api.tasks.TaskAction
 
 import com.rsicms.rsuite.projects.deploy.domain.RSuitePluginDeployer
 
-class RSuiteDevelopmentDeployTasks extends DefaultTask {
+class RSuiteDevelopmentDeployTasks extends RSuiteDevelopmentJarOnlyDeployTasks {
 
 	@TaskAction
 	void deploy(){
+		deployPluginsJarOnly();
 	}
 }

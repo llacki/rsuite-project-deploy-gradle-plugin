@@ -24,7 +24,7 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 
 		RSuiteDeploymentConfig deploymentConfig = project.extensions.create(RSUITE_DEPLOYMENT_EXTENSION, RSuiteDeploymentConfig, project)
 
-				
+
 		configureDefaultRepositories(project)
 		addRSuiteGroovyDependencies(project, deploymentConfig)
 		addRSuitePluginsDependencies(project, deploymentConfig)
@@ -43,7 +43,7 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 			group = GRADLE_RSUITE
 			description = "This task deploys all rsuite plugins related with the project"
 		}
-		
+
 		Task deployRStuiteProjectTask = project.task('deployRSuiteProject', type: RSuiteDeployRSuitePluginsTask) {
 			group = GRADLE_RSUITE
 			description = "This task deploys all rsuite plugins related with the project and runs all groovy scripts"
@@ -66,6 +66,11 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 			description = "Deploys RSuite plugins only and runs groovy scripts"
 		}
 
+		deployTask.configure({
+			def extraProperties = project.getExtensions().extraProperties;
+			extraProperties.set("deploymentMode", "development")
+			extraProperties.set("localDevelopmentDeploy", "true")
+		});
 		deployTask.dependsOn("runAllGroovyScripts")
 		deployTask.dependsOn("developmentDeployPluginJarOnly")
 	}
@@ -73,10 +78,10 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 	private String getRSuiteIvyRepositoryUrl(){
 		Properties props = new Properties()
 		InputStream is =  getClass().getResourceAsStream("/plugin.properties")
- 		props.load(is)
+		props.load(is)
 		props.get("rsuiteIvyRepositoryUrl")
 	}
-	
+
 	private void configureDefaultRepositories(Project project){
 		RepositoryHandler repositories = project.getRepositories();
 		repositories.mavenCentral();

@@ -98,6 +98,7 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 		project.afterEvaluate {
 			project.dependencies.add(CONFIGURATION_RSUITE_GROOVY, "rsi:rsuite-tools-groovy:20130208")
 			project.dependencies.add(CONFIGURATION_RSUITE_GROOVY, project.fileTree(dir:  deploymentConfig.getRSuiteHome() + '/clients/admin/lib', include: '*.jar'))
+			project.dependencies.add(CONFIGURATION_RSUITE_GROOVY, project.files('build/groovyHelperClasses'))
 		}
 	}
 

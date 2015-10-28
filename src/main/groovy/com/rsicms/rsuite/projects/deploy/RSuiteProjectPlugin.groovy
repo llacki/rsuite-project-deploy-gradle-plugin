@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler
 import com.rsicms.rsuite.projects.deploy.config.RSuiteDeploymentConfig
 import com.rsicms.rsuite.projects.deploy.tasks.RSuiteDeployRSuitePluginsTask
 import com.rsicms.rsuite.projects.deploy.tasks.RSuiteDevelopmentBuildPackageTask
+import com.rsicms.rsuite.projects.deploy.tasks.RSuiteDevelopmentCompileGroovyHelperClassesTask
 import com.rsicms.rsuite.projects.deploy.tasks.RSuiteDevelopmentJarOnlyDeployTasks
 import com.rsicms.rsuite.projects.deploy.tasks.RSuiteRunGroovyScriptTask
 import com.rsicms.rsuite.projects.deploy.tasks.RSuiteRunGroovyScriptsTask
@@ -29,15 +30,24 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 		addRSuiteGroovyDependencies(project, deploymentConfig)
 		addRSuitePluginsDependencies(project, deploymentConfig)
 
-		project.task('runAllGroovyScripts', type: RSuiteRunGroovyScriptsTask) {
+		Task compileGroovyHelperClassesTask = project.task('developmentCompileGroovyHelperClasses', type: RSuiteDevelopmentCompileGroovyHelperClassesTask) {
+			group = GRADLE_RSUITE
+			description = "This task compiles groovy helper classes"
+		}
+		
+		
+		Task runAllGroovyScriptsTask = project.task('runAllGroovyScripts', type: RSuiteRunGroovyScriptsTask) {
 			group = GRADLE_RSUITE
 			description = "This task run project groovy scripts"
 		}
+		runAllGroovyScriptsTask.dependsOn('developmentCompileGroovyHelperClasses')
 
-		project.task('runGroovyScript', type: RSuiteRunGroovyScriptTask) {
+
+		Task runGroovyScript = project.task('runGroovyScript', type: RSuiteRunGroovyScriptTask) {
 			group = GRADLE_RSUITE
 			description = "This task runs specific groovy script, provided as parameter 'scriptName'"
 		}
+		runGroovyScript.dependsOn("developmentCompileGroovyHelperClasses")
 
 		project.task('deployRSuitePlugins', type: RSuiteDeployRSuitePluginsTask) {
 			group = GRADLE_RSUITE

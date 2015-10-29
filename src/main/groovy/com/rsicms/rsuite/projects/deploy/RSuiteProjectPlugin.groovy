@@ -73,7 +73,7 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 
 		Task deployTask = project.task('developmentDeploy', type: RSuiteDevelopmentJarOnlyDeployTasks) {
 			group = GRADLE_RSUITE
-			description = "Deploys RSuite plugins only and runs groovy scripts"
+			description = "Deploys RSuite plugins and runs groovy scripts"
 		}
 
 		deployTask.configure({

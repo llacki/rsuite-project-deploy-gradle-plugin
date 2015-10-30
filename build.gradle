@@ -14,7 +14,7 @@ repositories { mavenCentral() }
 dependencies { testCompile 'junit:junit:4.12' }
 
 group = 'rsi'
-version = '0.0.7'
+version = '0.0.8'
 
 task uploadToLocalMavenRepostiory(type: Upload){
 	configuration = configurations.archives

@@ -15,7 +15,7 @@ class RSuitePluginDeployer {
 		RSuiteDeploymentConfig deploymentConfig = project.extensions.getByType(RSuiteDeploymentConfig)
 		File projectPluginDir = new File(deploymentConfig.baseDir, projectPluginLocation)
 		
-		println "Copy plugin from " + projectPluginDir.absolutePath " to " + deploymentConfig.getRSuitePluginsPath()
+		println "Copy plugin from " + projectPluginDir.absolutePath + " to " + deploymentConfig.getRSuitePluginsPath()
 		
 		project.copy {
 			from configuration

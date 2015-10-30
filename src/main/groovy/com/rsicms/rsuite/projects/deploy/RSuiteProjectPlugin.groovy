@@ -36,11 +36,10 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 		}
 		
 		
-		Task runAllGroovyScriptsTask = project.task('runAllGroovyScripts', type: RSuiteRunGroovyScriptsTask) {
+		project.task('runAllGroovyScripts', type: RSuiteRunGroovyScriptsTask) {
 			group = GRADLE_RSUITE
 			description = "This task run project groovy scripts"
 		}
-		runAllGroovyScriptsTask.dependsOn('developmentCompileGroovyHelperClasses')
 
 
 		Task runGroovyScript = project.task('runGroovyScript', type: RSuiteRunGroovyScriptTask) {
@@ -75,12 +74,15 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 			group = GRADLE_RSUITE
 			description = "Deploys RSuite plugins and runs groovy scripts"
 		}
+		
 
 		deployTask.configure({
 			def extraProperties = project.getExtensions().extraProperties;
 			extraProperties.set("deploymentMode", "development")
 			extraProperties.set("localDevelopmentDeploy", "true")
 		});
+		
+		deployTask.dependsOn("developmentCompileGroovyHelperClasses")
 		deployTask.dependsOn("runAllGroovyScripts")
 		deployTask.dependsOn("developmentDeployPluginJarOnly")
 	}

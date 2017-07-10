@@ -8,12 +8,7 @@ import org.gradle.api.Task
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 
 import com.rsicms.rsuite.projects.deploy.config.RSuiteDeploymentConfig
-import com.rsicms.rsuite.projects.deploy.tasks.RSuiteDeployRSuitePluginsTask
-import com.rsicms.rsuite.projects.deploy.tasks.RSuiteDevelopmentBuildPackageTask
-import com.rsicms.rsuite.projects.deploy.tasks.RSuiteDevelopmentCompileGroovyHelperClassesTask
-import com.rsicms.rsuite.projects.deploy.tasks.RSuiteDevelopmentJarOnlyDeployTasks
-import com.rsicms.rsuite.projects.deploy.tasks.RSuiteRunGroovyScriptTask
-import com.rsicms.rsuite.projects.deploy.tasks.RSuiteRunGroovyScriptsTask
+import com.rsicms.rsuite.projects.deploy.tasks.*;
 
 class RSuiteProjectPlugin  implements Plugin<Project> {
 
@@ -52,6 +47,13 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 			group = GRADLE_RSUITE
 			description = "This task deploys all rsuite plugins related with the project"
 		}
+		
+		Task moduleTask = project.task('deployXqueryModules', type: RSuiteDeployXqueryModulesTask) {
+			group = GRADLE_RSUITE
+			description = "This task deploys xquery modules"
+		}
+		
+		
 
 		Task deployRStuiteProjectTask = project.task('deployRSuiteProject', type: RSuiteDeployRSuitePluginsTask) {
 			group = GRADLE_RSUITE
@@ -69,11 +71,13 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 			description = "Deploys RSuite plugins only without running groovy scripts"
 		}
 		task.dependsOn("developmentBuildPluginPackage")
+		task.dependsOn("deployXqueryModules")
 
 		Task deployTask = project.task('developmentDeploy', type: RSuiteDevelopmentJarOnlyDeployTasks) {
 			group = GRADLE_RSUITE
 			description = "Deploys RSuite plugins and runs groovy scripts"
 		}
+		
 		
 
 		deployTask.configure({
@@ -85,6 +89,7 @@ class RSuiteProjectPlugin  implements Plugin<Project> {
 		deployTask.dependsOn("developmentCompileGroovyHelperClasses")
 		deployTask.dependsOn("runAllGroovyScripts")
 		deployTask.dependsOn("developmentDeployPluginJarOnly")
+		deployTask.dependsOn("deployXqueryModules")
 	}
 
 	private String getRSuiteIvyRepositoryUrl(){

@@ -9,36 +9,41 @@ dependencies {
 
 apply plugin: 'maven'
 
-repositories { mavenCentral() }
-
-dependencies { testCompile 'junit:junit:4.12' }
-
-group = 'rsi'
-version = '0.0.8'
-
-task uploadToLocalMavenRepostiory(type: Upload){
-	configuration = configurations.archives
-	repositories {
-		mavenDeployer {
-			repository(url: uri(mavenUrl))
-		}
-	}
+repositories { mavenCentral()
+	jcenter()
 }
 
-publishing{
-	publications {
-		ivyJava(IvyPublication) { from components.java }
+configurations.all {
+resolutionStrategy {
+        cacheDynamicVersionsFor 0, "seconds"
+        cacheChangingModulesFor 0, "seconds"
+    }
+}
+
+dependencies {
+	compile 'com.marklogic:ml-javaclient-util:2.12.0' 
+	testCompile 'junit:junit:4.12' 
 	}
 
+group = 'org.iet'
+version = '0.0.11'
 
+
+configurations {
+	archives
+}
+
+uploadArchives {
 	repositories {
-		ivy {
-			url ivyRSuiteRepoUrl
-			credentials{
-				username ivyRSuiteRepoUserName
-				password ivyRSuiteRepoPassword
+		mavenDeployer {
+			repository(url: "http://nexus.theiet.org/nexus/content/repositories/releases") {
+				authentication(userName: ietMavenUser, password: ietMavenPassword)
 			}
-			layout "pattern", { artifact "[organisation]/[module]/[artifact]-[revision].[ext]" }
+
+			snapshotRepository(url: 'http://nexus.theiet.org/nexus/content/repositories/snapshots') {
+				authentication(userName: ietMavenUser, password: ietMavenPassword);
+			}
+			pom.groupId = "org.iet"
 		}
 	}
 }

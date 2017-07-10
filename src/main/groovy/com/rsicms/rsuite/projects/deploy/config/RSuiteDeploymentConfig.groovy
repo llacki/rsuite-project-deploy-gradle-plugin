@@ -13,6 +13,8 @@ class RSuiteDeploymentConfig {
 
 	RSuitePluginsConfig rsuitePluginsConfig = new RSuitePluginsConfig()
 	
+	RSuiteXqueryModulesConfig rsuiteXqueryModulesConfig = new RSuiteXqueryModulesConfig();
+	
 	String rsuiteHomeDir
 	
 	String rsuitePluginsDir
@@ -43,6 +45,12 @@ class RSuiteDeploymentConfig {
 	void rsuitePlugins(Closure c) {
 		project.configure(rsuitePluginsConfig, c)
 	}
+	
+	void rsuiteXqueryModules(Closure c) {
+		project.configure(rsuiteXqueryModulesConfig, c)
+	}
+	
+	
 
 	String getGroovyBasePath(){
 		File groovyScriptsBaseDir = new File(setupDir, "scripts/groovy");

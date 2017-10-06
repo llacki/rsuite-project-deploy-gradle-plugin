@@ -21,11 +21,13 @@ class RSuiteDeployXqueryModulesTask extends DefaultTask {
 		RSuiteDeploymentConfig deploymentConfig = project.extensions.getByType(RSuiteDeploymentConfig)
 		RSuiteXqueryModulesConfig xqueryModulesConfig = deploymentConfig.getRsuiteXqueryModulesConfig();
 
+		File moduleSrcDir = new File(deploymentConfig.baseDir, xqueryModulesConfig.sourceDir);
+		
 		def modulesHome = getModulesHome()
 
 		removeCustomXqueryModules(xqueryModulesConfig, modulesHome)
 
-		copyXqueryModules(xqueryModulesConfig, modulesHome)
+		copyXqueryModules(moduleSrcDir, modulesHome)
 		
 		loadModulesToDatabase(deploymentConfig, modulesHome)
 	}
@@ -65,9 +67,9 @@ class RSuiteDeployXqueryModulesTask extends DefaultTask {
 		}
 	}
 
-	private copyXqueryModules(RSuiteXqueryModulesConfig xqueryModulesConfig, String modulesHome) {
+	private copyXqueryModules(File moduleSrcDir, String modulesHome) {
 		new AntBuilder().copy( todir:modulesHome ) {
-			fileset( dir:xqueryModulesConfig.sourceDir,  includes: '**/*' )
+			fileset( dir: moduleSrcDir,  includes: '**/*' )
 		  }
 	}
 

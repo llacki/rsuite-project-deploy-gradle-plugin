@@ -57,25 +57,6 @@ class RSuiteModulesFinder extends BaseModulesFinder implements ModulesFinder {
 		protected void addAssetDirectories(Modules modules, File baseDir) {
 			List<Resource> dirs = new ArrayList<>();
 			dirs.add(new FileSystemResource(baseDir));
-			
-//			File dir = new File(baseDir, "ext");
-//			if (dir.exists()) {
-//				
-//			}
-//			dir = new File(baseDir, "root");
-//			if (dir.exists()) {
-//				dirs.add(new FileSystemResource(dir));
-//			}
-//	
-//			if (includeUnrecognizedPathsAsAssetPaths && baseDir != null && baseDir.exists()) {
-//				List<String> recognizedPaths = getRecognizedPaths();
-//				for (File f : baseDir.listFiles()) {
-//					if (f.isDirectory() && !recognizedPaths.contains(f.getName())) {
-//						dirs.add(new FileSystemResource(f));
-//					}
-//				}
-//			}
-	
 			modules.setAssetDirectories(dirs);
 		}
 		

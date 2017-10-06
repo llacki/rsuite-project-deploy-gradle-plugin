@@ -15,6 +15,8 @@ class RSuiteGroovyScriptRunner {
 	String setUpPath;
 	
 	Project project;
+	
+	RSuiteDeploymentConfig deploymentConfig
 
 
 	public RSuiteGroovyScriptRunner(Project project, RSuiteDeploymentConfig deploymentConfig){
@@ -22,6 +24,7 @@ class RSuiteGroovyScriptRunner {
 		rsuiteDetail = deploymentConfig.getRSuiteConnectionDetails();
 		groovyDirPath = deploymentConfig.getGroovyBasePath();
 		setUpPath = deploymentConfig.getSetupDir().absolutePath;
+		this.deploymentConfig = deploymentConfig
 	}
 
 
@@ -37,6 +40,7 @@ class RSuiteGroovyScriptRunner {
 		def scriptFile = new File(groovyDirPath, scriptsArgs[0])
 		scriptsArgs[0] = scriptFile.toURI().toURL()
 		scriptsArgs.push("-DsetupPath=" + setUpPath)
+		scriptsArgs.push("-DrsuiteHome=" + deploymentConfig.getRSuiteHome())
 
 		def args = ["run", "-s"]+ scriptsArgs +   [
 			"--user",

@@ -178,9 +178,9 @@ public class RSuiteXccAssetLoader extends XccAssetLoader  {
      * @param f
      */
     protected Content loadFile(String uri, File f) {
-        if (modulesManager != null && !modulesManager.hasFileBeenModifiedSinceLastInstalled(f)) {
-            return null;
-        }
+//        if (modulesManager != null && !modulesManager.hasFileBeenModifiedSinceLastInstalled(f)) {
+//            return null;
+//        }
 
         ContentCreateOptions options = new ContentCreateOptions();
         options.setFormat(documentFormatGetter.getDocumentFormat(f));

@@ -10,6 +10,10 @@ class RSuiteDevelopmentJarOnlyDeployTasks extends DefaultTask {
 
 	@TaskAction
 	void deployPluginsJarOnly(){
+		def extraProperties = project.getExtensions().extraProperties;
+		extraProperties.set("deploymentMode", "development")
+		extraProperties.set("localDevelopmentDeploy", "true")
+
 		RSuitePluginDeployer pluginDeployer = new RSuitePluginDeployer()
 		pluginDeployer.deployRSuitePlugins(project, 'build/libs');
 	}

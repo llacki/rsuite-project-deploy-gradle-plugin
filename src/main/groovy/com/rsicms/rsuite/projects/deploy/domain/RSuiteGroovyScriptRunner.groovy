@@ -30,8 +30,26 @@ class RSuiteGroovyScriptRunner {
 
 	public runGroovyScript(String scriptLine){
 		def arguments = createGroovyScriptArguments(scriptLine)
-		println "Running script: " + arguments
+		println "Running script: " + serializeArguments(arguments)
 		runRSuiteGroovyScript(arguments)
+	}
+
+	private serializeArguments(arguments){
+		def args = [] as List
+		def param = ""
+
+		for (String item : arguments) {
+
+		  if (item.startsWith("-")) {
+		    param = item;
+		  }else if ("--password".equals(param)){
+		    item="*****"
+		  }
+		
+		  args.add(item)
+		}
+		
+		args.toString()
 	}
 
 	private createGroovyScriptArguments(scriptLine){
